@@ -5,4 +5,9 @@ block content
 	p Welcome to#{title}
 	form(action="/", method = "POST")
 		input(name="lead_email",type="email", placeholder="Enter your email address")
-		button(type ="sunmit") Submit
+		button(type ="submit") Submit
+		button( onclick= "play()" ) play
+	if leads
+		h1 leads
+		for lead in leads
+			p #{lead.email}

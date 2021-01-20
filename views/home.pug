@@ -13,7 +13,7 @@ html(lang='en')
        tbody(align="center")
         tr
          td
-          p camera4asdasd
+          p camera4
           canvas(id="chanel4"  style="border:1px solid;width:500px;")
          td
           p camera5
@@ -29,10 +29,37 @@ html(lang='en')
          td
           p camera7
           canvas(id="chanel7" style="border:1px solid;width:500px;") 
-       
+    .row
+     .col
+      table.table(style="border:0px ")
+       tbody(align="center")
+        tr
+         td
+          button(onclick= "play()") play
+          form(action="/home", method = "POST")
+           input(name="data_email",type="email", placeholder="Enter your email address")
+           button(type ="submit") Submit
+          form(action="/home/check_data", method = "POST")
+           input(name="data_email",type="email", placeholder="Enter your email address check")
+           button(type ="submit" ) Check
+          if leads
+           h1 data
+            for data in leads
+             h6 #{data.email}
+             form(action="/home/" + data.id +"/delete" ,method="POST")
+              button(type="submit") Delete
+         td
+          
+  script
+   include ../js/opensound.js
+
   script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsmpeg/0.2/jsmpg.min.js")
   include common/footer.pug
   +footer()
+
+
+
+
   script(type="text/javascript").
    var canvas4 = document.getElementById('chanel4');
    var canvas5 = document.getElementById('chanel5');
@@ -46,6 +73,7 @@ html(lang='en')
    var cam3= new jsmpeg(websocket5, {canvas:canvas5, autoplay:true, loop:true});
    var cam4= new jsmpeg(websocket6, {canvas:canvas6, autoplay:true, loop:true});
    var cam5= new jsmpeg(websocket7, {canvas:canvas7, autoplay:true, loop:true});
+   
 
     
 
