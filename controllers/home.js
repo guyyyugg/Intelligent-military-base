@@ -35,7 +35,7 @@ exports.check_data = function(req, res, next) {
 		}
 		if(i!=11){
 			console.log('else not success')
-			player.play('public/sound/sound.mp3', function(err){
+			player.play('public/sound/sound.wav', function(err){
  			console.log(err);
 			})
 			// sql.a();
