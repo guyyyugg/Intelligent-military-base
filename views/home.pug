@@ -35,7 +35,6 @@ html(lang='en')
        tbody(align="center")
         tr
          td
-          button(onclick= "play()") play
           form(action="/home", method = "POST")
            input(name="data_email",type="email", placeholder="Enter your email address")
            button(type ="submit") Submit
@@ -50,8 +49,7 @@ html(lang='en')
               button(type="submit") Delete
          td
           
-  script
-   include ../js/opensound.js
+  
 
   script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsmpeg/0.2/jsmpg.min.js")
   include common/footer.pug

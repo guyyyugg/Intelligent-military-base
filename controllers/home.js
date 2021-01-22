@@ -23,6 +23,7 @@ exports.check_data = function(req, res, next) {
 		// console.log(leads[0].dataValues.email)
 		var z=0;
 		var i=0
+		var sum=0;
 		leads.forEach(element => {
 			z++;
 		} );
@@ -30,10 +31,10 @@ exports.check_data = function(req, res, next) {
 		for(i=0 ;i<z;i++){
 			if(req.body.data_email == leads[i].dataValues.email){
 				console.log('hellow success')
-				i=10
+				sum=1;
 			}		
 		}
-		if(i!=11){
+		if(sum!=1){
 			console.log('else not success')
 			player.play('public/sound/sound.wav', function(err){
  			console.log(err);
