@@ -38,9 +38,9 @@ html(lang='en')
           form(action="/home", method = "POST")
            input(name="data_email",type="email", placeholder="Enter your email address")
            button(type ="submit") Submit
-          form(action="/home/check_data", method = "POST")
-           input(name="data_email",type="email", placeholder="Enter your email address check")
-           button(type ="submit" ) Check
+          form()
+           input(name="data_email",id="data_email",type="email", placeholder="Enter your email address check")
+           button(type ="submit",id="check_data" ) Check
           if leads
            h1 data
             for data in leads
@@ -56,7 +56,7 @@ html(lang='en')
   +footer()
 
 
-
+  script(src='/ajax/checkdata.js')
 
   script(type="text/javascript").
    var canvas4 = document.getElementById('chanel4');

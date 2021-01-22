@@ -27,18 +27,21 @@ exports.check_data = function(req, res, next) {
 		leads.forEach(element => {
 			z++;
 		} );
-		res.render('home', { title: 'Express',leads: leads });
+		//res.render('home', { title: 'Express',leads: leads });
 		for(i=0 ;i<z;i++){
-			if(req.body.data_email == leads[i].dataValues.email){
+			if(req.body.email == leads[i].dataValues.email){
 				console.log('hellow success')
 				sum=1;
+				i=z+10;
+				return res.status(200).json({msg:"data have in database"});
 			}		
 		}
 		if(sum!=1){
 			console.log('else not success')
-			player.play('public/sound/sound.wav', function(err){
- 			console.log(err);
-			})
+			return res.status(404).json({msg:"data opensound"});
+			// player.play('public/sound/sound.wav', function(err){
+ 		// 	console.log(err);
+			// })
 			// sql.a();
 			// player.play('../public/sound/sound/mp3')
 			// var audio = new Audio('https://firebasestorage.googleapis.com/v0/b/adad-aaf50.appspot.com/o/sound.mp3?alt=media&token=f1fc2f6c-c781-4551-9129-e439866f647b');
