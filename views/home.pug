@@ -4,6 +4,13 @@ html(lang='en')
  +head("Military Base")
  body
   header
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    script(type='text/javascript').
+        const Toast = Swal.mixin({
+        showConfirmButton: true,
+        timer: 2000
+        })
+
    include common/navbar.pug
    +navbar()
    div(align="center")

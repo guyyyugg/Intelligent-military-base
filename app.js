@@ -1,3 +1,4 @@
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -10,6 +11,15 @@ var usersRouter = require('./routes/users');
 
 require('./passport_setup')(passport);
 var app = express();
+
+
+
+
+var bodyParser = require('body-parser');
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -3,7 +3,6 @@ function check_data(){
     $("#check_data").on("click", function(event) {
         event.preventDefault();
         let email = $("#data_email").val();
-
         $.ajax({
             url: `${window.location.origin}/home/check_data`,
             method: "POST",
@@ -11,29 +10,33 @@ function check_data(){
 
             success: function(data) {
                     console.log('hellow success')                
-
-    //             setTimeout(function(){
-				// 	window.location.href = "/";
-				// }
-    //             ,2000)
+                     Toast.fire({
+                    icon: 'success',
+                    title: data.msg
+                    })
+                    setTimeout(function(){
+                    window.location.href = "/home";
+                    }
+                    ,3000)
                 
             },
             error: function(err) {
                 // player.play('/sound/sound.wav', function(err){
                 // console.log(err);
                 // })
+                Toast.fire({
+                    icon: 'error',
+                    title: err.responseJSON.msg
+                    
+                 })
                 var audio = new Audio('../sound/sound.wav');
                 audio.play();
                 console.log('err');
-     //            Toast.fire({
-					// icon: 'error',
-     //                title: err.responseJSON.msg
-                    
-     //             })
-
+                setTimeout(function(){
+                    window.location.href = "/home";
+                    }
+                    ,5000)
                  //console.log(err.responseJSON.msg);
-                 
-                //alert("Your email or password entered is incorrect. Please try again!");
             }
         })
     });
