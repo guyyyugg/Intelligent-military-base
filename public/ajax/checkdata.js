@@ -14,10 +14,10 @@ function check_data(){
                     icon: 'success',
                     title: data.msg
                     })
-                    setTimeout(function(){
-                    window.location.href = "/home";
-                    }
-                    ,3000)
+                    // setTimeout(function(){
+                    // window.location.href = "/home";
+                    // }
+                    // ,3000)
                 
             },
             error: function(err) {
@@ -32,10 +32,47 @@ function check_data(){
                 var audio = new Audio('../sound/sound.wav');
                 audio.play();
                 console.log('err');
-                setTimeout(function(){
+                // setTimeout(function(){
+                //     window.location.href = "/home";
+                //     }
+                //     ,5000)
+                 //console.log(err.responseJSON.msg);
+            }
+        })
+    });
+}
+function check_login(){
+    $("#check_login").on("click", function(event) {
+        event.preventDefault();
+        let email = $("#email").val();
+        let password = $("#password").val();
+        $.ajax({
+            url: `${window.location.origin}/login`,
+            method: "POST",
+            data: {email: email,password:password},
+
+            success: function(data) {
+                    console.log('login success')                
+                     Toast.fire({
+                    icon: 'success',
+                    title: 'LOGIN SUCCESS'
+                    })
+                    setTimeout(function(){
                     window.location.href = "/home";
                     }
-                    ,5000)
+                    ,2000)
+                
+            },
+            error: function(err) {
+                // player.play('/sound/sound.wav', function(err){
+                // console.log(err);
+                // })
+                Toast.fire({
+                    icon: 'error',
+                    title: 'LOGIN FAIL'
+                    
+                 })
+                console.log('err');
                  //console.log(err.responseJSON.msg);
             }
         })
@@ -44,4 +81,5 @@ function check_data(){
 
 $(document).ready(function() {
     check_data();
+    check_login();
 });

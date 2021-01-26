@@ -12,7 +12,7 @@ html(lang='en')
         })
 
    include common/navbar.pug
-   +navbar()
+   +navbar(user)
    div(align="center")
     .row
      .col
@@ -38,7 +38,7 @@ html(lang='en')
           canvas(id="chanel7" style="border:1px solid;width:500px;") 
     .row
      .col
-      table.table(style="border:0px ")
+      table
        tbody(align="center")
         tr
          td
@@ -48,15 +48,48 @@ html(lang='en')
           form()
            input(name="data_email",id="data_email",type="email", placeholder="Enter your email address check")
            button(type ="submit",id="check_data" ) Check
-          if leads
-           h1 data
-            for data in leads
-             h6 #{data.email}
-             form(action="/home/" + data.id +"/delete" ,method="POST")
-              button(type="submit") Delete
-         td
-          
-  
+    .row
+     .col-md-6
+      h1 data
+      table
+       thead
+        tr
+         th(scope="col") Email
+         th(scope="col") Delete
+        tr
+       tbody
+        if leads
+         for data in leads
+          tr
+           td
+            h6 #{data.email}
+           td
+            form(action="/home/" + data.id +"/delete" ,method="POST")
+              button(type="submit").btn.btn-primary Delete
+     .col-md-6
+      h1 email can login
+      table.table
+       thead
+        tr
+         th(scope="col") Email
+         th(scope="col") username
+         th(scope="col") firstname
+         th(scope="col") lastname
+        tr
+       tbody
+        if user
+         tr
+          td
+           h6 #{user.email}
+          td
+           h6 #{user.username}
+          td
+           h6 #{user.firstname}
+          td
+           h6 #{user.lastname}
+
+
+
 
   script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsmpeg/0.2/jsmpg.min.js")
   include common/footer.pug

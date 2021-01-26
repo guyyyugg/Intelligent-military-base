@@ -17,15 +17,15 @@ module.exports = {
         type: Sequelize.DATE
       },
       username: {
-        allowNull: true,
+        allowNull: false,
         type: Sequelize.STRING
       },
       firstname: {
-        allowNull: true,
+        allowNull: false,
         type: Sequelize.STRING
       },
       lastname: {
-        allowNull: true,
+        allowNull: false,
         type: Sequelize.STRING
       },
       password: {

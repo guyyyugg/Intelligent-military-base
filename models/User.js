@@ -11,15 +11,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     username: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: false
     },
     firstname: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: false
     },
     lastname: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: false
     },
     password: {
       type: DataTypes.STRING,
@@ -29,6 +29,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true
+    },
+    is_admin: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
     }
   })
   return User;
