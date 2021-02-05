@@ -11,7 +11,7 @@ module.exports = function(passport) {
 		done(null, user.id)
 	});
 	passport.deserializeUser(function(id, done) {
-		models.User.findOne({
+		models.Member.findOne({
 			where: {
 				'id' : id
 			}
@@ -28,7 +28,7 @@ module.exports = function(passport) {
 		passReqToCallback: true
 	},
 	function(req, email, password, done) {
-		return models.User.findOne({
+		return models.Member.findOne({
 			where: {
 				'email' : email
 			},

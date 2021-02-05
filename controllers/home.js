@@ -3,16 +3,22 @@ const {Howl, Howler} = require('howler');
 var player = require('play-sound')(opts = {})
 exports.home_show = function(req, res, next) {
 	return models.Lead.findAll().then(leads =>{
-		res.render('home', { title: 'Express',leads: leads,user: req.user });
-		// console.log(leads[0].dataValues.email)
-		// console.log(user);
-		// console.log(leads);
-		// console.log(leads.dataValues.length)
-		models.User.findAll().then(user =>{
+		   models.Member.findAll().then(user1 =>{
+			res.render('home', { title: 'Express',leads: leads,user: req.user,user1:user1 });
 			user.forEach(element => {
 				console.log(element.firstname);
 			} );
 		})
+		
+		// console.log(leads[0].dataValues.email)
+		// console.log(user);
+		// console.log(leads);
+		// console.log(leads.dataValues.length)
+		// models.User.findAll().then(user =>{
+		// 	user.forEach(element => {
+		// 		// console.log(element.firstname);
+		// 	} );
+		// })
 		
 		
 	})
@@ -37,23 +43,44 @@ exports.check_data = function(req, res, next) {
 			z++;
 			console.log(element.email);
 		} );
-		for(i=0 ;i<z;i++){
-			if(req.body.email == leads[i].dataValues.email){
-				console.log('hellow success')
-				sum=1;
-				i=z+10;
-				return res.status(200).json({msg:"data have in database"});
-			}		
-		}
-		if(sum!=1){
-			console.log('else not success')
+		var request = require('request');
+ 		request.get('http://127.0.0.1:7777/predict/0', 
+		function(error, response, body){
+    	if(!error){
+		  var data = JSON.parse(body);
+		  if(data== "unknown"){
 			return res.status(404).json({msg:"Found a bad person."});
-		}
+		  }else{
+			return res.status(200).json({msg:"data have in database"});
+		  }
+    	}
+		// for(i=0 ;i<z;i++){
+		// 	if(req.body.email == leads[i].dataValues.email){
+		// 		console.log('hellow success')
+		// 		sum=1;
+		// 		i=z+10;
+		// 		return res.status(200).json({msg:"data have in database"});
+		// 	}		
+		// }
+		// if(sum!=1){
+		// 	console.log('else not success')
+		// 	return res.status(404).json({msg:"Found a bad person."});
+		// }
 	})
+})
 }
 
 exports.delete_data = function(req, res, next) {
 	return models.Lead.destroy({
+		where: {
+			id: req.params.data_id
+		}
+	}).then(result => {
+		res.redirect('/home')
+	})
+}
+exports.delete_email = function(req, res, next) {
+	return models.User.destroy({
 		where: {
 			id: req.params.data_id
 		}

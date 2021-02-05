@@ -23,7 +23,7 @@ exports.data_person = function(req, res, next) {
 	
 }
 exports.check_login = function(req, res, next) {
-	return models.User.findAll().then(user =>{
+	return models.Member.findAll().then(user =>{
 		var data = [];
 		user.forEach(element => {
 			data.push(element.email);

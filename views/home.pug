@@ -4,89 +4,84 @@ html(lang='en')
  +head("Military Base")
  body
   header
+   
    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     script(type='text/javascript').
         const Toast = Swal.mixin({
         showConfirmButton: true,
         timer: 2000
         })
+   style
+    include ../public/stylesheets/style.css
 
-   include common/navbar.pug
+   include common/navbarlogin.pug
    +navbar(user)
    div(align="center")
     .row
      .col
+      h2 WEB for USER
+      h2 CCTV
       table.table(style="border:0px ")
        tbody(align="center")
         tr
          td
           p camera4
-          canvas(id="chanel4"  style="border:1px solid;width:500px;")
+          a(href="/home/CCTV1", method = "GET")
+           canvas(id="chanel4"  style="border:1px solid;width:500px;")
          td
           p camera5
-          canvas(id="chanel5" style="border:1px solid;width:500px;")
+          a(href="/home/CCTV2", method = "GET")
+           canvas(id="chanel5" style="border:1px solid;width:500px;")
     .row
      .col
+      h2 WEB CAM
       table.table(style="border:0px ")
        tbody(align="center")
         tr
          td
           p camera6
-          canvas(id="chanel6" style="border:1px solid;width:500px;")
+          a(href="/home/webcam1", method = "GET")
+           canvas(id="chanel6" style="border:1px solid;width:500px;")
          td
           p camera7
-          canvas(id="chanel7" style="border:1px solid;width:500px;") 
+          a(href="/home/webcam2", method = "GET")
+           canvas(id="chanel7" style="border:1px solid;width:500px;") 
     .row
      .col
+      
       table
        tbody(align="center")
         tr
          td
-          form(action="/home", method = "POST")
-           input(name="data_email",type="email", placeholder="Enter your email address")
-           button(type ="submit") Submit
           form()
            input(name="data_email",id="data_email",type="email", placeholder="Enter your email address check")
            button(type ="submit",id="check_data" ) Check
-    .row
+    
      .col-md-6
-      h1 data
-      table
-       thead
-        tr
-         th(scope="col") Email
-         th(scope="col") Delete
-        tr
-       tbody
-        if leads
-         for data in leads
-          tr
-           td
-            h6 #{data.email}
-           td
-            form(action="/home/" + data.id +"/delete" ,method="POST")
-              button(type="submit").btn.btn-primary Delete
-     .col-md-6
-      h1 email can login
+      h1 EMAIL ALL
       table.table
        thead
         tr
          th(scope="col") Email
-         th(scope="col") username
+         th(scope="col") nickname
          th(scope="col") firstname
          th(scope="col") lastname
+         th(scope="col") status
         tr
        tbody
         if user
-         tr
-          td
-           h6 #{user.email}
-          td
-           h6 #{user.username}
-          td
-           h6 #{user.firstname}
-          td
-           h6 #{user.lastname}
+         for data1 in user1
+          tr
+           td
+            h6 #{data1.email}
+           td
+            h6 #{data1.username}
+           td
+            h6 #{data1.firstname}
+           td
+            h6 #{data1.lastname}
+           td
+            h3 online
 
 
 

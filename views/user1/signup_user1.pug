@@ -1,0 +1,44 @@
+doctype html
+html(lang='en')
+  include ../common/head.pug
+  +head("Sign up to Starter MVP")
+  body
+    header
+      include ../common/navbar.pug
+      +navbar()
+      .container
+        .row
+          .col-sm-12.offset-md-2.col-md-8
+            .jumbotron
+              h2.text-center Sign up
+              .row
+                .col-sm-12.col-md-12
+                  form(action='/signup', method='POST')
+                    div.formgroup
+                      label.small.mb-1.mt-3 Email:
+                      input(placeholder='Please enter your email', required=true, name='email', type='email', value=formData.email).form-control
+                      if (errors && errors.email)
+                        p.small.text-danger #{errors.email}
+                      label.small.mb-1.mt-3 Password:
+                      input(placeholder='New Password',required=true, name='password', type='password', value='').form-control
+                      if (errors && errors.password)
+                        p.small.text-danger #{errors.password}
+                      label.small.mb-1.mt-3 nickname:
+                      input(placeholder='New nickname',required=true, name='username', type='text', value='').form-control
+                      label.small.mb-1.mt-3 firstname:
+                      input(placeholder='New firstname',required=true, name='firstname', type='text', value='').form-control
+                      label.small.mb-1.mt-3 lastname:
+                      input(placeholder='New lastname',required=true, name='lastname', type='text', value='').form-control
+                      label.small.mb-1.mt-3 rank:
+                      select(name='dropDown', id='').form-control
+                        option(value='2', selected= true) leader 
+                        option(value='1', selected= true) soldier 
+
+
+
+                      button.mt-3.btn.btn-primary(type='submit') Sign up
+                      p.mt-2.mb-0
+                        | Already have an account? #[a(href="/login") Log in here].
+
+    include ../common/footer.pug
+    +footer()

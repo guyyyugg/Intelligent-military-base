@@ -27,34 +27,36 @@ exports.signup = function(req, res, next) {
 		if (!isEmpty(errors)) {
 			rerender_signup(errors, req, res, next);
 		} else {
-			return models.User.findOne({
+			return models.Member.findOne({
 				where: {
-					is_admin: true
+					rank: "Admin"
 				}
 			}).then(user => {
 				let newUser;
 				if (user !== null) {
-					newUser = models.User.build({
+					newUser = models.Member.build({
 						email: req.body.email,
 						password: generateHash(req.body.password),
 						username: req.body.username,
 						firstname: req.body.firstname,
-						lastname: req.body.lastname
+						lastname: req.body.lastname,
+						rank: req.body.rank
 					});					
 				} else {
-					newUser = models.User.build({
+					newUser = models.Member.build({
 						email: req.body.email,
 						password: generateHash(req.body.password),
 						is_admin: true,
 						username: req.body.username,
 						firstname: req.body.firstname,
-						lastname: req.body.lastname
+						lastname: req.body.lastname,
+						rank: req.body.rank
 					});
 				}
 				return newUser.save().then(result => {
 					passport.authenticate('local', {
-						successRedirect: "/home",
-						failureRedirect: "/signup",
+						successRedirect: "/admin_home",
+						failureRedirect: "/admin_signup",
 						failureFlash: true
 					})(req, res, next);
 				})	
@@ -76,8 +78,17 @@ exports.login = function(req, res, next) {
 			if (err) {
 				return res.status(500).json({"success":false});
 			} else {
-                return res.status(200).json({"success":true,
-                });
+				models.User.update({
+					updatedAt: 'NOW()'
+				}, { 
+					where: {
+						id: user.id
+					}
+				}).then(result => {
+
+					return res.status(200).json({"success":true,
+					});
+				});
 			}
 		});
 	})(req, res, next);

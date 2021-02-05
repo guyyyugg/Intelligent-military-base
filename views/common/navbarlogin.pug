@@ -1,0 +1,36 @@
+mixin navbar(user)
+  nav.navbar.navbar-expand.navbar-dark.bg-dark
+    a(href="/", aria-label="Golden Goose").navbar-brand.mr-0.mr-md-2
+      img(src="/images/1.jpg", width="36", height="36")
+    .collapse.navbar-collapse
+      ul.navbar-nav.mr-auto
+        li.nav-item
+          a.nav-link(href="/home") Home
+    .navbar-right
+      ul.navbar-nav.mr-auto
+      .navbar-right
+      ul.navbar-nav.mr-auto
+        li.dropdown.user.user-menu
+          a.dropdown-toggle(href='#' data-toggle='dropdown' aria-expanded='false')
+            img.user-image(src='/AdminLTE-2.4.18/dist/img/user2-160x160.jpg' alt='User Image')
+            span.hidden-xs user.email
+          ul.dropdown-menu
+            li.user-header
+              img.img-circle(src='/AdminLTE-2.4.18/dist/img/user2-160x160.jpg' alt='User Image')
+              p
+              | user.email
+            li.user-body
+              .row
+                .col-xs-4.text-center
+                  a(href='#') Followers
+                .col-xs-4.text-center
+                  a(href='#') Sales
+                .col-xs-4.text-center
+                  a(href='#') Friends
+            li.user-footer
+              .pull-left
+                a.btn.btn-default.btn-flat(href='#') Profile
+              .pull-right
+                a.btn.btn-default.btn-flat(href='#') Sign out
+        li.nav-item
+          a.nav-link(href="/logout") Logout

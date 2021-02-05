@@ -1,0 +1,36 @@
+doctype html
+html(lang='en')
+  include ../common/head.pug
+  +head("Login to ADMIN Military Base")
+  body
+    header
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+       script(type='text/javascript').
+        const Toast = Swal.mixin({
+        showConfirmButton: true,
+        timer: 2000
+        })
+      include ../common/navbaradmin.pug
+      +navbar()
+      .container
+        .row
+          .col-sm-12.offset-md-2.col-md-8
+            .jumbotron
+              h2.text-center Login for admin
+              .row
+                .col-sm-12.col-md-12.col-xs-12
+                  form()
+                    div.formgroup
+                      label.small.mb-1.mt-3 Email:
+                      input(placeholder='Enter your email', required=false,id='email', name='email', type='email', value='').form-control
+                      label.small.mb-1.mt-3 Password:
+                      input(placeholder='Enter your current password',required=true,id='password', name='password', type='password', value='').form-control
+                      button.mt-3.btn.btn-primary(type='submit' ,id='admin_login') Log in
+                      p.mt-2.mb-0
+                        | Forgot your password? #[a(href="#") Reset here].
+
+    include ../common/footer.pug
+    +footer()
+
+
+    script(src='/ajax/login_admin.js')
