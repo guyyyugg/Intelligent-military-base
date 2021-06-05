@@ -1,0 +1,237 @@
+
+  <%- include ('../common/head.ejs') %>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsmpeg/0.2/jsmpg.min.js"></script>
+  <div class="wrapper">
+    <%- include ('../common/user1/navbar1.ejs') %>
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md" align="center">
+                        <h1>show CCTV for Soldier</h1>
+                        <img src="http://127.0.0.1:5000/video_feed/<%=data.user%>:<%=data.password%>@<%=data.ip_port%>" style="border:1px solid;width:1000px">
+                        <br>
+                        <br><br>
+                        <table id="example" class="table table-striped table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>NAME</th>
+                                    <th>SERVER</th>
+                                    <th>Place</th>
+                                    <th>latitude</th>
+                                    <th>longitude</th>
+                                    <th>Detail</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%
+                                if(data){
+                                var i=1;
+                                var x;
+                                    data_place.forEach(function(data_place1){
+                                        if(data.place == data_place1.id){
+                                             x = data_place1.place;
+                                        }
+                                       })
+                                   
+                                %>
+                                <tr>
+                                    <td><%=i++%></td>
+                                    <td><%=data.name%></td>
+                                    <td><%=data.ip_port%></td>
+                                    <td><%=data.position%></td>
+                                    <td><%=data.latitude%></td>
+                                    <td><%=data.longitude%></td>
+                                    <td>
+                                        <span>email : <%=data.email%></span><br>
+                                        <span>rank : <%=data.rank%></span><br>
+                                        <span>Base : <%=x%></span><br>
+                                    </td>
+            
+                                </tr>
+                             
+                                <% } else{ %>
+                                    <tr>
+                                        <td colspan="7">No Data Found</td>
+                                    </tr>
+                                <% } %>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/ajax/user1_checkdata.js"></script>
+<script>
+    
+    $(function(){
+        
+        var socket = io();
+        socket.on('alert_one', function(msg){
+            console.log(msg.device_eui)
+            Swal.fire({
+            icon: 'error',
+            title: 'มีการผ่าน sensor หรือ ตรวจพบMac Wifi',
+            text: '   อุปกรณ์   '+msg.device_eui+'  latitune   '+ msg.latitude + '   longitune   ' + msg.latitude+ '   สถานที่   '+ msg.position,
+            footer: '<a href>โปรดระวังตัว</a>'
+            })
+            var audio = new Audio('../sound/sound.wav');
+                audio.play();
+        });
+        
+        socket.on('end_send', function(msg){
+            Swal.fire({
+            icon: 'success',
+            title: 'ส่งรูปสำเร็จ',
+            })
+        });
+        socket.on('end_sendsound', function(msg){
+            Swal.fire({
+            icon: 'success',
+            title: 'ส่งเสียงสำเร็จ',
+            })
+        });
+        socket.on('end_sendwifi', function(msg){
+            Swal.fire({
+            icon: 'success',
+            title: 'ส่ง Mac Wifi สำเร็จ',
+            })
+        });
+
+        socket.on('alert_cctv', function(msg){
+            console.log(msg)
+            Swal.fire({
+            icon: 'error',
+            title: 'พบคนแปลกหน้า',
+            text: '   ชื่ออุปกรณ์   '+msg.name+'   IP   '+msg.ip_port+'  latitune   '+ msg.latitude + '   longitune   ' + msg.latitude+ '   สถานที่   '+ msg.position,
+            footer: '<a href>พบคนแปลกหน้า</a>'
+            })
+            var audio = new Audio('../sound/sound.wav');
+            audio.play();
+        });
+    });
+</script>
+
+<%- include ('../common/footer.ejs') %>
+
+
+
+
+<!-- doctype html
+html(lang='en')
+ include ../common/head.pug
+ +head("Military Base")
+ body
+  header
+   
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    script(type='text/javascript').
+        const Toast = Swal.mixin({
+        showConfirmButton: true,
+        timer: 2000
+        })
+   style
+    include ../../public/stylesheets/style.css
+   div.wrapper
+    include ../common/admin/navbaradmin.pug
+    +navbar(user)
+    .content-wrapper
+     .content-header
+      .container-fluid
+       .row
+        .col
+         table(align="center")
+          tbody
+           tr
+            td
+             form(method='POST',action='http://158.108.168.11:9997/upload', enctype='multipart/form-data')
+              label(small.mb-1.mt-3) Name  :  
+              input(type="text",name="name",required)
+              input(type="file", name="file",required)
+              br
+              input(type='submit', name="uploadimage", value='Upload Video')
+              br
+              br
+        .col
+         table(align="center")
+          tbody
+           tr
+            td
+             form()
+              h1 Check Data
+              button(type ="submit",id="check_data" ) Check
+        .col
+         table(align="center")
+          tbody
+           tr
+            td
+             form()
+              h1 Check pir sensor
+              button(type ="submit",id="check_sensor_pir" ) Check pir sensor
+       .row
+        .col-md(align="center")
+         h1 show email for admin
+         table.table.table-bordered
+          thead
+           tr
+            th(scope="col") Email
+            th(scope="col") firstname
+            th(scope="col") lastname
+            th(scope="col") time
+            th(scope="col") rank
+            th(scope="col") createdby
+            th(scope="col") edit
+            th(scope="col") delete
+          tbody
+           if data
+            for data1,index in data
+             tr
+              td
+               h6 #{data1.email}
+              td
+               h6 #{data1.firstname}
+              td
+               h6 #{data1.lastname}
+              td
+               h6 #{data1.updatedAt.substr(1,24)}
+              td
+               h6 #{data1.rank}
+              td
+               h6 #{data1.createdby}
+              td
+               form(action="/home/" + data1.id +"/delete_email" ,method="POST")
+                 button(type="submit").btn.btn-primary edit
+              td
+               form(action="/admin_showemail/" + data1.id +"/delete_email" ,method="POST")
+                 button.btn.btn-danger(type='button' data-toggle='modal' aria-labelledby='exampleModalLabel' data-target= '#'+index )
+                  | Delete email
+                 #index.modal.fade(tabindex='-1' role='dialog' aria-hidden='true' )
+                  .modal-dialog(role='document')
+                   .modal-content
+                    .modal-header
+                     h5#exampleModalLabel.modal-title DELETE 
+                     button.close(type='button' data-dismiss='modal' aria-label='Close')
+                      span(aria-hidden='true') &times;
+                    .modal-body
+                     | #{data1.email}
+                    .modal-footer
+                     button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+                     button.btn.btn-primary(type='submit') OK
+
+
+
+
+  script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsmpeg/0.2/jsmpg.min.js")
+  include ../common/footer.pug
+  +footer()
+
+
+  script(src='/ajax/checkdata.js') -->
+   
+
+    
+

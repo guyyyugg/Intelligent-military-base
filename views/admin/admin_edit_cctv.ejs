@@ -1,0 +1,179 @@
+<%- include ('../common/head.ejs') %>
+  <div class="wrapper">
+    <%- include ('../common/admin/navbaradmin.ejs') %>
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12 offset-md-2 col-md-8">
+                        <div class="jumbotron">
+                            <h2 class="text-center">EDIT CCTV <%= data.name%> </h2>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12">
+                                    <div class="formgroup">
+                                        <label class="small mb-1 mt-3">name camera:</label>
+                                        <input class="form-control" placeholder="Please enter your name camera" required name="name" id="name"type="text" value="<%=data.name%>">
+                                        <label class="small mb-1 mt-3">IP:PORT</label>
+                                        <input class="form-control" placeholder="Please enter IP and PORT camera 158.108.1.2:554 " required name="name" id="ip_port"type="text" value="<%=data.ip_port%>">
+                                        <label class="small mb-1 mt-3">user:</label>
+                                        <input class="form-control" placeholder="Please enter USER camera" required name="user" id="user" type="text" value="<%=data.user%>">
+                                        <label class="small mb-1 mt-3">Password:</label>
+                                        <input class="form-control" placeholder="Please enter PASSWORD camera" required name="Password" id="password" type="text" value="<%=data.password%>">
+                                        <label class="small mb-1 mt-3">Position:</label>
+                                        <input class="form-control" placeholder="Please enter place" required name="Position"  id ="position" type="text" value="<%=data.position%>">
+                                        <label class="small mb-1 mt-3">Click to latitude and longitude:</label>
+                                        <input type="button" value="Get Location" onclick="getLocationConstant()" />
+                                        <label class="small mb-1 mt-3">latitude:</label>
+                                        <input class="form-control" placeholder="Please enter latitude" required name="latitude"  id ="latitude" type="text" value="<%=data.latitude%>">
+                                        <label class="small mb-1 mt-3">longitude:</label>
+                                        <input class="form-control" placeholder="Please enter longitude" required name="longitude" id="longitude" type="text" value="<%=data.longitude%>">
+                                        <label class="small mb-1 mt-3">Base:</label>
+                                            <select class="form-control" name="place" id="place">
+                                              <% if(data_1111){
+                                                var i = 1;
+                                                var x = false;
+                                                data_1111.forEach(function(data2){
+                                                  var x = false;
+                                                  if(data2.id == data.place){
+                                                    x=true;
+                                                    console.log('in if')
+                                                  }
+                                                %>
+                                                  <option <%if(x){%>selected="selected"<%}%> value="<%=data2.id%>" > <%=data2.place%> </option>
+                                                <%})}%>
+                                            </select>      
+                                        <button class="mt-3 btn btn-primary" type="submit" onclick="check_edit_cctv('<%=data.id%>','<%=user.email%>','<%=user.rank%>')" >update camera</button>
+                                      </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/ajax/checkdata.js"></script>
+<script>
+    
+  $(function(){
+      
+      var socket = io();
+      socket.on('alert_one', function(msg){
+          console.log(msg.device_eui)
+          Swal.fire({
+          icon: 'error',
+          title: 'มีการผ่าน sensor หรือ ตรวจพบMac Wifi',
+          text: '   อุปกรณ์   '+msg.device_eui+'  latitune   '+ msg.latitude + '   longitune   ' + msg.latitude+ '   สถานที่   '+ msg.position,
+          footer: '<a href>โปรดระวังตัว</a>'
+          })
+          var audio = new Audio('../sound/sound.wav');
+              audio.play();
+      });
+      
+      socket.on('end_send', function(msg){
+          Swal.fire({
+          icon: 'success',
+          title: 'ส่งรูปสำเร็จ',
+          })
+      });
+      socket.on('end_sendsound', function(msg){
+          Swal.fire({
+          icon: 'success',
+          title: 'ส่งเสียงสำเร็จ',
+          })
+      });
+      socket.on('end_sendwifi', function(msg){
+          Swal.fire({
+          icon: 'success',
+          title: 'ส่ง Mac Wifi สำเร็จ',
+          })
+      });
+
+      socket.on('alert_cctv', function(msg){
+          console.log(msg)
+          Swal.fire({
+          icon: 'error',
+          title: 'พบคนแปลกหน้า',
+          text: '   ชื่ออุปกรณ์   '+msg.name+'   IP   '+msg.ip_port+'  latitune   '+ msg.latitude + '   longitune   ' + msg.latitude+ '   สถานที่   '+ msg.position,
+          footer: '<a href>พบคนแปลกหน้า</a>'
+          })
+          var audio = new Audio('../sound/sound.wav');
+          audio.play();
+      });
+  });
+</script>
+<script>
+    function getLocationConstant() {
+      if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(onGeoSuccess, onGeoError);
+      } else {
+          alert("Your browser or device doesn't support Geolocation");
+      }
+      }
+     
+      // If we have a successful location update
+      function onGeoSuccess(event) {
+          document.getElementById("latitude").value = event.coords.latitude;
+         document.getElementById("longitude").value = event.coords.longitude;
+     
+      }
+     
+      // If something has gone wrong with the geolocation request
+      function onGeoError(event) {
+          alert("Error code " + event.code + ". " + event.message);
+      }
+  </script>
+<%- include ('../common/footer.ejs') %>
+
+
+
+<!-- doctype html
+html(lang='en')
+  include ../common/head.pug
+  +head("Sign up to Starter MVP")
+  body
+    header
+      div.wrapper
+        include ../common/admin/navbaradmin.pug
+        +navbar(user)
+        .content-wrapper
+          .content-header
+            .container-fluid
+              .row
+                .col-sm-12.offset-md-2.col-md-8
+                  .jumbotron 
+                    h2.text-center add user for admin
+                    .row
+                      .col-sm-12.col-md-12
+                        form(action='/admin_signup', method='POST')
+                          div.formgroup
+                            label.small.mb-1.mt-3 Email:
+                            input(placeholder='Please enter your email', required=true, name='email', type='email', value=formData.email).form-control
+                            if (errors && errors.email)
+                              p.small.text-danger #{errors.email}
+                            label.small.mb-1.mt-3 Password:
+                            input(placeholder='New Password',required=true, name='password', type='password', value='').form-control
+                            if (errors && errors.password)
+                              p.small.text-danger #{errors.password}
+                            label.small.mb-1.mt-3 firstname:
+                            input(placeholder='New firstname',required=true, name='firstname', type='text', value='').form-control
+                            label.small.mb-1.mt-3 lastname:
+                            input(placeholder='New lastname',required=true, name='lastname', type='text', value='').form-control
+                            label.small.mb-1.mt-3 PHONE NUMBER:
+                            input(placeholder='phone number',required=true, name='phonenumber', type='text', value='').form-control
+                            label.small.mb-1.mt-3 SIM NUMBER:
+                            input(placeholder='sim number',required=true, name='simnumber', type='text', value='').form-control
+                            label.small.mb-1.mt-3 rank:
+                            select(name='rank', id='').form-control
+                              option(value='Admin', selected= true) Admin 
+                              option(value='Supervisor', selected= true) Supervisor 
+                              option(value='Leader', selected= true) Leader 
+                              option(value='Soldier', selected= true) Soldier
+                            button.mt-3.btn.btn-primary(type='submit') Sign up
+                            p.mt-2.mb-0
+                              | Already have an account? #[a(href="/login") Log in here].
+
+    include ../common/footer.pug
+    +footer() -->

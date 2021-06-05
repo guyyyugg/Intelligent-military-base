@@ -3,28 +3,86 @@
 /**
  * Module dependencies.
  */
-
+var path = require('path');
 var app = require('../app');
 var debug = require('debug')('myapp:server');
 var http = require('http');
+const https = require('https')
+const fs = require('fs')
 let models = require('../models');
 /**
  * Get port from environment and store in Express.
  */
+var mqtt = require('mqtt');
+
+
+// Connect MQTT
+var client = mqtt.connect({
+   clientId: 'MyMQTT',
+    host: "10.64.70.97",
+    port: "1883",
+    username: "mqtt",
+    password: "123456Q",
+    keepalive : 1000
+});
+client.on('connect', function() {
+	console.log('MQTT Connected');
+});
+
+
 
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
-
 /**
  * Create HTTP server.
  */
 
 var server = http.createServer(app);
 
+
+
+global.io = require('socket.io')(server)
+
+io.on('connection',function(socket){
+  socket.on('alert_one', function(msg){
+    io.emit('alert_one',msg);
+  });  
+  
+  
+
+  socket.on('alert_cctv', function(msg){
+    io.emit('alert_cctv',msg);
+  }); 
+
+
+
+
+  socket.on('end_send', function(msg){
+    io.emit('end_send',msg);
+  });  
+  socket.on('end_sendwifi', function(msg){
+    io.emit('end_sendwifi',msg);
+  });  
+  socket.on('end_sendsound', function(msg){
+    io.emit('end_sendsound',msg);
+  });  
+});
+
+
 /**
  * Listen on provided port, on all network interfaces.
  */
+const key_path = path.join(__dirname, "../https/key.pem")
+const cert_path = path.join(__dirname, "../https/cert.pem")
+const sslServer = https.createServer(
+  {
+    key: fs.readFileSync(key_path),
+    cert: fs.readFileSync(cert_path),
+  },
+  app
+)
 return models.sequelize.sync().then(result => {
+  // sslServer.listen(3001, () => console.log('Secure server 🚀🔑 on port 3001'))
   server.listen(port);
   server.on('error', onError);
   server.on('listening', onListening);
@@ -90,3 +148,6 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+
+

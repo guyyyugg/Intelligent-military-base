@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <include src="../common/head.ejs"></include>
+  <%- include ('../common/head.ejs') %>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- <script type="text/javascript">const Toast = Swal.mixin({showConfirmButton: true,timer: 2000})</script> -->
+  <title>Login to Military Base</title>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+        <div class="col-sm-12 offset-md-2 col-md-8">
+            <div class="jumbotron">
+                <h2 class="text-center">Login to Military Base</h2>
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-xs-12">
+                        <form>
+                            <div class="formgroup">
+                              <label class="small mb-1 mt-3">Email:</label>
+                              <input class="form-control" placeholder="Enter your email" id="email" name="email" type="email" value="" />
+                              <label class="small mb-1 mt-3">Password:</label>
+                              <input class="form-control" placeholder="Enter your current password" required="required" id="password" name="password" type="password" value="" />
+                              <button class="mt-3 btn btn-primary" type="submit" id="check_login">Log in</button>
+                              <p class="mt-2 mb-0">Forgot your password? <a href="#">Reset here</a>.</p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include ('../common/footer.ejs') %>
+<script src="/ajax/checkdata.js"></script>
+</body>
+
+
+</html>
+<!-- script(src='/ajax/checkdata.js') -->

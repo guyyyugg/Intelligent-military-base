@@ -37,10 +37,15 @@ exports.signup = function(req, res, next) {
 					newUser = models.Member.build({
 						email: req.body.email,
 						password: generateHash(req.body.password),
+						is_admin: true,
 						username: req.body.username,
 						firstname: req.body.firstname,
 						lastname: req.body.lastname,
-						rank: req.body.rank
+						rank: req.body.rank,
+						createdby: 'ADMIN',
+						phonenumber: req.body.phonenumber,
+						simnumber:req.body.simnumber,
+						place:req.body.place
 					});					
 				} else {
 					newUser = models.Member.build({
@@ -50,13 +55,19 @@ exports.signup = function(req, res, next) {
 						username: req.body.username,
 						firstname: req.body.firstname,
 						lastname: req.body.lastname,
-						rank: req.body.rank
+						rank: req.body.rank,
+						createdby: 'ADMIN',
+						phonenumber: req.body.phonenumber,
+						simnumber:req.body.simnumber,
+						place:req.body.place
+
+
 					});
 				}
 				return newUser.save().then(result => {
 					passport.authenticate('local', {
-						successRedirect: "/admin_home",
-						failureRedirect: "/admin_signup",
+						successRedirect: "/login",
+						failureRedirect: "/signup",
 						failureFlash: true
 					})(req, res, next);
 				})	
@@ -69,31 +80,40 @@ exports.login = function(req, res, next) {
 
 	passport.authenticate("local", function(error, user, info) {
 		if (error) {
-			return res.status(500).json({"success":false});
+			return res.status(200).json({"success":false,msg:"email หรือ password ผิดพลาด"});
 		}
 		if (!user) {
-			return res.status(401).json({"success":false});
+			return res.status(200).json({"success":false,msg:"กรุณากรอก email หรือ password"});
 		}
 		req.login(user, function (err) {
 			if (err) {
-				return res.status(500).json({"success":false});
+				return res.status(200).json({"success":false,msg:"Error!!\n login fail"});
 			} else {
-				models.User.update({
-					updatedAt: 'NOW()'
-				}, { 
-					where: {
-						id: user.id
-					}
-				}).then(result => {
-
-					return res.status(200).json({"success":true,
-					});
+				return  models.Showlog.create({
+					email: req.body.email,
+					rank : req.user.rank,
+					place: req.user.place,
+					log : 'Log in'
+				}).then(function(user){
+					console.log('success', user.toJSON());
+					res.status(200).json({"success":true});
+				})
+				.catch(function(err) {
+					// print the error details
+					console.log(err, req.body.email);
+					
 				});
 			}
 		});
 	})(req, res, next);
  };
 exports.logout = function(req, res, next) { 
+	models.Showlog.create({
+		email: req.user.email,
+		rank : req.user.rank,
+		place: req.user.place,
+		log : 'Log Out'
+	})
 	req.logout();
 	req.session.destroy();
 	res.redirect('/login');

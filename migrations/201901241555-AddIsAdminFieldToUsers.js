@@ -18,7 +18,7 @@ module.exports = {
     return Promise.all(
       columnAndTypes.map(c => {
         return queryInterface.addColumn(
-          'Users',
+          'Members',
           c.name,
           c.type(Sequelize)
         )
@@ -30,7 +30,7 @@ module.exports = {
     return Promise.all(
       columnAndTypes.map(c => {
         return queryInterface.removeColumn(
-          'Users',
+          'Members',
           c.name,
         )
       })

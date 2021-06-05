@@ -1,0 +1,55 @@
+
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a></li>
+        <li class="nav-item d-none d-sm-inline-block"><a class="nav-link" href="/user2_signup">add for leader</a></li>
+        <li class="nav-item d-none d-sm-inline-block"><a class="nav-link" href="/user2_adddevice">add device</a></li>
+        <li class="nav-item d-none d-sm-inline-block"><a class="nav-link" href="/user2_addcamera">add camera</a></li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown"><a class="nav-link" href="/logout">LOGOUT</a></li>
+    </ul>
+</nav>
+<aside class="main-sidebar sidebar-dark-primary elevation-4"><a class="brand-link" href=""><img class="brand-image img-circle elevation-3" src="/AdminLTE-3.1.0-rc/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" style="opacity: .8" /><span class="brand-text font-weight-light">Military Base for leader</span></a>
+  <div class="sidebar">
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+          <div class="image"><img class="img-circle elevation-2" src="/AdminLTE-3.1.0-rc/dist/img/user2-160x160.jpg" alt="User Image" /></div>
+          <div class="info"><a class="d-block" href="">  <%= user.email    %> </a></div>
+      </div>
+      <div class="info">
+        <span  class="d-block text-white" href=""> RANK :  <%= user.rank    %> </span>
+        <%
+            var x;
+        data_place.forEach(function(data_place1){
+            if(user.place == data_place1.id){
+                 x = data_place1.place;
+            }
+           })%>
+           <span  class="d-block text-white" href="#"> Base :  <%= x   %> </span>
+    </div>
+      <nav class="mt-2">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+              <li class="nav-item has-treeview menu-open"><a class="nav-link " href="user2_home"><i class="nav-icon fas fa-tachometer-alt"></i>
+                      <p>leader<i class="right fas fa-angle-left"></i></p>
+                  </a>
+                  <ul class="nav nav-treeview">
+                      <li class="nav-item"><a class="nav-link " href="/show_home"><i class="far fa-circle nav-icon"></i>
+                              <p>home</p>
+                          </a></li>
+                      <li class="nav-item"><a class="nav-link" href="/user2_showlog"><i class="far fa-circle nav-icon"></i>
+                              <p>show log</p>
+                          </a></li>
+                      <li class="nav-item"><a class="nav-link" href="/user2_showemail"><i class="far fa-circle nav-icon"></i>
+                              <p>show email</p>
+                          </a></li>
+                      <li class="nav-item"><a class="nav-link" href="/user2_showdevice"><i class="far fa-circle nav-icon"></i>
+                              <p>status Device</p>
+                          </a></li>
+                  </ul>
+              </li>
+          </ul>
+      </nav>
+  </div>
+</aside>
+
+

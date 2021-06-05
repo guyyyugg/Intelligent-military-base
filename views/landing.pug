@@ -1,13 +1,232 @@
-extends layout
-
-block content
-	h1=title
-	p Welcome to#{title}
-	form(action="/", method = "POST")
-		input(name="lead_email",type="email", placeholder="Enter your email address")
-		button(type ="submit") Submit
-		button( onclick= "play()" ) play
-	if leads
-		h1 leads
-		for lead in leads
-			p #{lead.email}
+doctype html
+head
+		meta(charset='utf-8')
+		meta(http-equiv='X-UA-Compatible' content='IE=edge')
+		title AdminLTE 3 | Dashboard
+		// Tell the browser to be responsive to screen width
+		meta(name='viewport' content='width=device-width, initial-scale=1')
+		// Font Awesome
+		link(rel='stylesheet' href='/AdminLTE-3.1.0-rc/plugins/fontawesome-free/css/all.min.css')
+		// Ionicons
+		link(rel='stylesheet' href='https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css')
+		// Tempusdominus Bbootstrap 4
+		link(rel='stylesheet' href='/AdminLTE-3.1.0-rc/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')
+		// iCheck
+		link(rel='stylesheet' href='/AdminLTE-3.1.0-rc/plugins/icheck-bootstrap/icheck-bootstrap.min.css')
+		// JQVMap
+		link(rel='stylesheet' href='/AdminLTE-3.1.0-rc/plugins/jqvmap/jqvmap.min.css')
+		// Theme style
+		link(rel='stylesheet' href='/AdminLTE-3.1.0-rc/dist/css/adminlte.min.css')
+		// overlayScrollbars
+		link(rel='stylesheet' href='/AdminLTE-3.1.0-rc/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')
+		// Daterange picker
+		link(rel='stylesheet' href='/AdminLTE-3.1.0-rc/plugins/daterangepicker/daterangepicker.css')
+		// summernote
+		link(rel='stylesheet' href='/AdminLTE-3.1.0-rc/plugins/summernote/summernote-bs4.css')
+		// Google Font: Source Sans Pro
+		link(href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700' rel='stylesheet')
+.wrapper
+		// Navbar
+		nav.main-header.navbar.navbar-expand.navbar-white.navbar-light
+				// Left navbar links
+				ul.navbar-nav
+						li.nav-item
+								a.nav-link(data-widget='pushmenu' href='#')
+										i.fas.fa-bars
+						li.nav-item.d-none.d-sm-inline-block
+								a.nav-link(href='index3.html') Home
+						li.nav-item.d-none.d-sm-inline-block
+								a.nav-link(href='#') Contact
+				// SEARCH FORM
+				form.form-inline.ml-3
+						.input-group.input-group-sm
+								input.form-control.form-control-navbar(type='search' placeholder='Search' aria-label='Search')
+								.input-group-append
+										button.btn.btn-navbar(type='submit')
+												i.fas.fa-search
+				// Right navbar links
+				ul.navbar-nav.ml-auto
+						li.nav-item.dropdown
+								a.nav-link(data-toggle='dropdown' href='#') LOGOUT
+						li.nav-item
+								a.nav-link(data-widget='control-sidebar' data-slide='true' href='#')
+										i.fas.fa-th-large
+								
+		// /.navbar
+		// Main Sidebar Container
+		aside.main-sidebar.sidebar-dark-primary.elevation-4
+				// Brand Logo
+				a.brand-link(href='index3.html')
+						img.brand-image.img-circle.elevation-3(src='/AdminLTE-3.1.0-rc/dist/img/AdminLTELogo.png' alt='AdminLTE Logo' style='opacity: .8')
+						span.brand-text.font-weight-light AdminLTE 3
+				// Sidebar
+				.sidebar
+						// Sidebar user panel (optional)
+						.user-panel.mt-3.pb-3.mb-3.d-flex
+								.image
+										img.img-circle.elevation-2(src='/AdminLTE-3.1.0-rc/dist/img/user2-160x160.jpg' alt='User Image')
+								.info
+										a.d-block(href='#') Alexander Pierce
+						// Sidebar Menu
+						nav.mt-2
+								ul.nav.nav-pills.nav-sidebar.flex-column(data-widget='treeview' role='menu' data-accordion='false')
+										li.nav-item.has-treeview.menu-open
+												a.nav-link.active(href='#')
+														i.nav-icon.fas.fa-tachometer-alt
+														p
+																| Dashboard
+																i.right.fas.fa-angle-left
+												ul.nav.nav-treeview
+														li.nav-item
+																a.nav-link.active(href='./index.html')
+																		i.far.fa-circle.nav-icon
+																		p Dashboard v1
+														li.nav-item
+																a.nav-link(href='./index2.html')
+																		i.far.fa-circle.nav-icon
+																		p Dashboard v2
+														li.nav-item
+																a.nav-link(href='./index3.html')
+																		i.far.fa-circle.nav-icon
+																		p Dashboard v3
+										li.nav-item.has-treeview
+												a.nav-link(href='#')
+														i.nav-icon.fas.fa-edit
+														p
+																| Forms
+																i.fas.fa-angle-left.right
+												ul.nav.nav-treeview
+														li.nav-item
+																a.nav-link(href='pages/forms/general.html')
+																		i.far.fa-circle.nav-icon
+																		p General Elements
+														li.nav-item
+																a.nav-link(href='pages/forms/advanced.html')
+																		i.far.fa-circle.nav-icon
+																		p Advanced Elements
+														li.nav-item
+																a.nav-link(href='pages/forms/editors.html')
+																		i.far.fa-circle.nav-icon
+																		p Editors
+										li.nav-header EXAMPLES
+										li.nav-item
+												a.nav-link(href='pages/calendar.html')
+														i.nav-icon.far.fa-calendar-alt
+														p
+																| Calendar
+																span.badge.badge-info.right 2
+										li.nav-item
+												a.nav-link(href='pages/gallery.html')
+														i.nav-icon.far.fa-image
+														p
+																| Gallery
+						// /.sidebar-menu
+				// /.sidebar
+		// Content Wrapper. Contains page content
+		.content-wrapper
+				// Content Header (Page header)
+				.content-header
+						.container-fluid
+								.row.mb-2
+										.col-sm-6
+												h1.m-0.text-dark WEB for USER
+										// /.col
+										.col-sm-6
+												ol.breadcrumb.float-sm-right
+														li.breadcrumb-item
+																a(href='#') Home
+														li.breadcrumb-item.active Dashboard v1
+										// /.col
+								// /.row
+						// /.container-fluid
+				// /.content-header
+				// Main content
+				.row
+						.col(align="center")
+								h2 CCTV
+								table.table(style="border:0px ")
+										tbody(align="center")
+												tr
+														td
+																p camera4
+																a(href="/home/CCTV1", method = "GET")
+																		canvas(id="chanel4"  style="border:1px solid;width:500px;")
+																		form(action="/admin_home/record_cctv", method="POST")
+																				button(type="submit").btn.btn-primary RECORD WEB CCTV1
+																			
+            																	
+														td
+																p camera5
+																a(href="/home/CCTV2", method = "GET")
+																		canvas(id="chanel5" style="border:1px solid;width:500px;")
+																		form(action="/admin_home/record_cctv", method="POST")
+																				button(type="submit").btn.btn-primary RECORD WEB CCTV2
+            																	
+				.row
+						.col(align="center")
+								h2 WEB CAM
+								table.table(style="border:0px ")
+										tbody(align="center")
+												tr
+														td
+																p camera6
+																a(href="/home/webcam1", method = "GET")
+																		canvas(id="chanel6" style="border:1px solid;width:500px;")
+																		form(action="/admin_home/record_cctv", method="POST")
+																				button(type="submit").btn.btn-primary RECORD WEB CAM1
+														td
+																p camera7
+																a(href="/home/webcam2", method = "GET")
+																		canvas(id="chanel7" style="border:1px solid;width:500px;") 
+																		form(action="/admin_home/record_cctv", method="POST")
+																				button(type="submit").btn.btn-primary RECORD WEB CAM2
+				
+				
+								
+		footer.main-footer
+				strong
+						| Copyright &copy; 2014-2019 
+						a(href='http://adminlte.io') AdminLTE.io
+						| .
+				|     All rights reserved.
+				.float-right.d-none.d-sm-inline-block
+						b Version
+						|  3.0.0
+		// Control Sidebar
+		aside.control-sidebar.control-sidebar-dark
+				// Control sidebar content goes here
+		// /.control-sidebar
+// ./wrapper
+// jQuery
+script(src='/AdminLTE-3.1.0-rc/plugins/jquery/jquery.min.js')
+// jQuery UI 1.11.4
+script(src='/AdminLTE-3.1.0-rc/plugins/jquery-ui/jquery-ui.min.js')
+// Resolve conflict in jQuery UI tooltip with Bootstrap tooltip
+script.
+		$.widget.bridge('uibutton', $.ui.button)
+// Bootstrap 4
+script(src='/AdminLTE-3.1.0-rc/plugins/bootstrap/js/bootstrap.bundle.min.js')
+// ChartJS
+script(src='/AdminLTE-3.1.0-rc/plugins/chart.js/Chart.min.js')
+// Sparkline
+script(src='/AdminLTE-3.1.0-rc/plugins/sparklines/sparkline.js')
+// JQVMap
+script(src='/AdminLTE-3.1.0-rc/plugins/jqvmap/jquery.vmap.min.js')
+script(src='/AdminLTE-3.1.0-rc/plugins/jqvmap/maps/jquery.vmap.usa.js')
+// jQuery Knob Chart
+script(src='/AdminLTE-3.1.0-rc/plugins/jquery-knob/jquery.knob.min.js')
+// daterangepicker
+script(src='/AdminLTE-3.1.0-rc/plugins/moment/moment.min.js')
+script(src='/AdminLTE-3.1.0-rc/plugins/daterangepicker/daterangepicker.js')
+// Tempusdominus Bootstrap 4
+script(src='/AdminLTE-3.1.0-rc/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')
+// Summernote
+script(src='/AdminLTE-3.1.0-rc/plugins/summernote/summernote-bs4.min.js')
+// overlayScrollbars
+script(src='/AdminLTE-3.1.0-rc/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')
+// AdminLTE App
+script(src='/AdminLTE-3.1.0-rc/dist/js/adminlte.js')
+// AdminLTE dashboard demo (This is only for demo purposes)
+script(src='/AdminLTE-3.1.0-rc/dist/js/pages/dashboard.js')
+// AdminLTE for demo purposes
+script(src='/AdminLTE-3.1.0-rc/dist/js/demo.js')

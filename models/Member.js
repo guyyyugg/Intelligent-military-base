@@ -3,9 +3,8 @@
 module.exports = (sequelize, DataTypes) => {
   var Member = sequelize.define('Member', {
     id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
       allowNull: false,
       primaryKey: true
     },
@@ -33,6 +32,18 @@ module.exports = (sequelize, DataTypes) => {
     createdby: {
       type: DataTypes.STRING,
       allowNull: true,
+    },
+    phonenumber: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    simnumber: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    place: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
   })
   return Member;
